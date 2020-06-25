@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <style>
+        .Selected {
+            background-color: lightgray;
+        }
+    </style>
+    <title>Cannabis Form Letter</title>
+</head>
+
+<body>
+    <h1>Letter to ???</h1>
+    <div id="emailBody" onSubmit="sendMe()">
+        <p class="Intro">Dear ___________,</p>
+        <p class="Intro" >We, members of the Social Justice Bermuda group, are writing in response to the proposed Cannabis (Licensing and Regulation) Act 2020.<br>We applaud the Bermuda Government for pushing this legislation forward and appreciate that there are many components of the proposed policy and Act that will be beneficial to the people of Bermuda. Despite efforts to incorporate restorative practices into the Act, the proposed policy and legislation fall short of crucial measures for restorative justice. We believe the Act and policy document, as they are currently written, will not fully meet the needs of Bermudians and residents, especially those most impacted by cannabis prohibition. This legislation must fundamentally incorporate restorative justice practices and we recommend the following areas be added to the updated policies and legislation for the Cannabis (Licensing and Regulation) Act 2020 including but not limited to:<br>
+        </p>
+        <h2>Select sections you agree with</h2>
+        <ol>
+            <li>All non-violent cannabis-related convictions must be expunged contemporaneously with the passing of thislegislation (including those people convicted of possessing more than 7 grams of cannabis).</li>
+            <li>Persons still currently incarcerated on a conviction of a non-violent cannabis related charge should bereleased from imprisonment contemporaneously with the passing of this legislation.</li>
+            <li>All people with previous non-violent cannabis related offences are eligible for deferred licence feesfor up to one year for any category.</li>
+            <li>Revenue must be reinvested into the communities most impacted by the prohibition of cannabis by:<br>
+                <ul><li>Providing support & incentives for Bermudians to start cannabis-related businesses.</li>
+                    <li>Promoting equitable employment opportunities targeting formerly incarcerated individuals (convicted
+                        on non-violent cannabis related charges) as well as reserving a percentage of licences for those
+                        with prior cannabis convictions.</li>
+                    <li>Ensuring that employment/ leadership in the industry is representative of the demographic of the
+                        impacted community to reduce the disparity and create economic equity.</li>
+                    <li>Funding equity programs as well as producing a public yearly report from the Cannabis Advisory
+                        Authority that outlines how the revenue has been used for restorative justice.</li>
+                    <li>Giving priority for licensing to those with past non-violent cannabis related convictions, so long
+                        as all other aspects of the licensing application are in order.</li>
+                </ul>
+            </li>
+            <li>Members of the Cannabis Advisory Authority must be representative of Bermuda's demographics and haveproven knowledge of the cannabis culture and industry.</li>
+            <li>Annual license fees should be accessible and not too high to ensure anyone can enter the market.</li>
+            <li>License fees should be partially refundable if a license is not granted to ensure that people are not dissuaded from applying. The current proposed license fees are sensible and should not be higher.</li>
+            <li>Cannabis consumption should be permitted in designated outdoor public spaces and on private properties. Cannabis consumption, distribution or production should not be permitted within the grounds of schools, playgrounds, government buildings and places of worship. The untenable (half-mile from schools or places of worship) restriction on the cultivation and distribution of cannabis should be removed from the proposed legislation.</li>
+            <li>Personal home grow licences should be made available to the public to grow plants on their private properties. People can apply for a home grow license per plant and should pay up to $50 per plant for up to 10 mature plants.</li>
+            <li>Local transportation of cannabis should be permitted for personal purposes and in particular for medicinal purposes.</li>
+            <li>Elected Ministers of Parliament and Ministers of Government should not be permitted to participate economically in the cannabis industry.</li>
+            <li>Cannabis distribution should be permitted both on online shops and in bricks and mortar retail settings.</li>
+            <li>Delivery licenses should be issued to allow for retail shops to deliver cannabis to consumers/patients.</li>
+            <li>Cannabis production should be tracked from seed to sale to ensure quality control.</li>
+            <li>The Cannabis Advisory Authority should ensure balance of THC and CBD in cannabis products to limit high levels of THC, and ensure that all products are clearly and properly labeled with ingredients, THC/CBD levels and potential allergens for consumers.</li>
+            <li>10% of revenue should be invested in prevention, youth outreach and education initiatives supported by the Department of National Drug Control and other Bermuda-based non profit organisations.</li>
+            <li>50% of revenue should be invested directly in island-wide community centres, public playgrounds, outdoor recreational spaces, sports facilities and the public education system including all public primary, middle, and senior schools and the Bermuda College towards upgrading facilities and providing support to teachers and staff.</li>
+        </ol>
+        <p>We feel that it is important to highlight these recommendations to assist the Bermuda Government with developing and enacting a modern law that is restorative. It is crucial that Bermuda introduces a safe and accessible cannabis market for all, especially those most impacted by cannabis prohibition.</p>
+        <p>Should you require more information or clarification, please get in touch via the contact information below.</p>
+        <p id="valediction">Sincerely,</p>
+        <p id="name"></p>
+        <button id="sendTheEmail" onclick="sendMe()">Generate Email</button>
+    </div>
+    
+    <script type="text/javascript">
+
+        // Listens for clicks and toggles the .Selected styling
+        // All elements with this class can then be added to an object list
+        // using getElementsByClassName("Selected")
+        document.addEventListener('click', function(e) {
+            e = e || window.event;
+            var target = e.target || e.srcElement,
+                text = target.textContent || target.innerText;
+                console.dir(target); //for testing
+
+            if (target.className.match(/(?:^|\s)Selected(?!\S)/)){
+               target.classList.remove("Selected");
+            }else target.className += " Selected";
+                
+
+        }, false
+        );
+        
+        function sendMe(){
+            // email link parameters
+            var recipient = "socialjusticebda@gmail.com",
+                subject = "Free the Weed",
+                emailIntro = document.querySelectorAll("p.Intro"),
+                emailItems = document.querySelectorAll("p:not(.Intro), ol > li.Selected, ul > li.Selected"),
+                message = "";
+
+            // loop through all p elements with class Intro
+            // TODO: Make one pass of elements and use if elsif etc. to add message segments 
+            for (var i = 0; i < emailIntro.length; i++){
+                // add intro section of email
+                //message += emailIntro[i].innerHTML.replace(/(?:^|\s)<p>|<[/]p>|<br>/g, "\n\n") + "\n";
+                message += emailIntro[i].innerText + "\n\n";
+            }
+            message += "\n";
+
+            // loop through remaining elements
+            for (var i = 0; i < emailItems.length; i++) {
+                if (emailItems[i].nodeName == "LI"){
+                    message += (i+1)+". "+ emailItems[i].innerText + "\n\n";
+                }else message += emailItems[i].innerText + "\n\n";
+                
+                
+            }
+
+            window.location.assign("mailto:"+ recipient +"?subject="+ subject +"&body="+ encodeURIComponent(message)+"");
+        }
+    </script>
+</body>
+</html>
